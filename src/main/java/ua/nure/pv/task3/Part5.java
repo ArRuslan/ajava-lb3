@@ -1,5 +1,6 @@
 package ua.nure.pv.task3;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -7,11 +8,8 @@ import java.io.RandomAccessFile;
 public class Part5 {
 	
 	private int n;
-
 	private int k;
-	
 	private RandomAccessFile raf;
-	
 	private Thread[] threads;
 
 	Part5(int n, int k) {
@@ -20,6 +18,10 @@ public class Part5 {
 	}
 
 	public void run() throws FileNotFoundException {
+		File file = new File("part5.txt");
+		if(file.exists()) {
+			file.delete();
+		}
 		raf = new RandomAccessFile("part5.txt", "rw");
 
 		threads = new Thread[n];
@@ -35,7 +37,7 @@ public class Part5 {
 
 					synchronized (Part5.this) {
 						try {
-							raf.seek(finalI * (n + 1) + j);
+							raf.seek(finalI * (k + 1) + j);
 							raf.write(j == k ? '\n' : '0' + finalI);
 						} catch (IOException e) {
 							return;
