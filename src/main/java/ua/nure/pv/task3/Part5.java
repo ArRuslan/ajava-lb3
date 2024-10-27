@@ -37,7 +37,7 @@ public class Part5 {
 
 					synchronized (Part5.this) {
 						try {
-							raf.seek(finalI * (k + 1) + j);
+							raf.seek(finalI * (k + 1L) + j);
 							raf.write(j == k ? '\n' : '0' + finalI);
 						} catch (IOException e) {
 							return;
