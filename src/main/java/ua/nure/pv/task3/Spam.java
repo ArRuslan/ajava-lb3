@@ -12,12 +12,14 @@ public class Spam {
 		for(int i = 0; i < messages.length; i++) {
 			final int finalI = i;
 			threads[i] = new Thread(() -> {
-				try {
-					Thread.sleep(timeouts[finalI]);
-				} catch (InterruptedException e) {
-                    return;
-                }
-				System.out.println(messages[finalI]);
+				while(true) {
+					try {
+						Thread.sleep(timeouts[finalI]);
+					} catch (InterruptedException e) {
+						return;
+					}
+					System.out.println(messages[finalI]);
+				}
             });
 		}
 	}

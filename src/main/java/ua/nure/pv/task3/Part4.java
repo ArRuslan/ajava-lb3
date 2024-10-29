@@ -19,7 +19,7 @@ public class Part4 {
     private Thread[] threads;
 
     public Part4() throws IOException {
-        File part4 = new File("/mnt/B0A0B30BA0B2D6D6/programming/java/nure/java-advanced-task3-stub/part4.txt");
+        File part4 = new File("part4.txt");
 
         BufferedReader reader = new BufferedReader(new FileReader(part4));
         String line;
@@ -78,11 +78,11 @@ public class Part4 {
 
     public int searchMaxThreaded() {
 		threads = new Thread[THREADS_COUNT];
-		final int[] threads_max = new int[THREADS_COUNT];
+		final int[] threadsMax = new int[THREADS_COUNT];
 
 		final int elements_per_thread = n * m / THREADS_COUNT + 1;
 		for(int i = 0; i < THREADS_COUNT; i++) {
-			threads_max[i] = matrix[0][0];
+			threadsMax[i] = matrix[0][0];
 			final int finalI = i;
 			threads[i] = new Thread(() -> {
 				int start_pos = elements_per_thread * finalI;
@@ -95,9 +95,8 @@ public class Part4 {
 					} catch (InterruptedException e) {
 						return;
 					}
-					//System.out.printf("Processing element %d:%d%n", this_n, this_m);
-					if(matrix[this_n][this_m] > threads_max[finalI]) {
-						threads_max[finalI] = matrix[this_n][this_m];
+					if(matrix[this_n][this_m] > threadsMax[finalI]) {
+						threadsMax[finalI] = matrix[this_n][this_m];
 					}
 					this_m++;
 					if(this_m == m) {
@@ -109,36 +108,15 @@ public class Part4 {
 			threads[i].start();
 		}
 
-		/*final int rows_per_thread = n / THREADS_COUNT + 1;
-		for(int i = 0; i < THREADS_COUNT; i++) {
-			threads_max[i] = matrix[0][0];
-			final int finalI = i;
-			threads[i] = new Thread(() -> {
-				for(int ti = finalI; ti < rows_per_thread; ti++) {
-					for (int j = 0; j < m; j++) {
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            return;
-                        }
-                        if (matrix[ti][j] > threads_max[finalI]) {
-							threads_max[finalI] = matrix[ti][j];
-						}
-					}
-				}
-			});
-			threads[i].start();
-		}*/
-
-		int max = threads_max[0];
+		int max = threadsMax[0];
         for (int i = 0; i < THREADS_COUNT; i++) {
             try {
                 threads[i].join();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
 
             }
-            if(threads_max[i] > max) {
-				max = threads_max[i];
+            if(threadsMax[i] > max) {
+				max = threadsMax[i];
 			}
         }
 
@@ -152,11 +130,11 @@ public class Part4 {
 		current = System.currentTimeMillis();
 		System.out.printf("Search multi-thread: %d, %dms%n", p.searchMaxThreaded(), System.currentTimeMillis() - current);
 
-		p.generateLargeMatrix(128, 128);
+		/*p.generateLargeMatrix(128, 128);
 
 		current = System.currentTimeMillis();
 		System.out.printf("Search single-thread: %d, %dms%n", p.searchMax(), System.currentTimeMillis() - current);
 		current = System.currentTimeMillis();
-		System.out.printf("Search multi-thread: %d, %dms%n", p.searchMaxThreaded(), System.currentTimeMillis() - current);
+		System.out.printf("Search multi-thread: %d, %dms%n", p.searchMaxThreaded(), System.currentTimeMillis() - current);*/
     }
 }

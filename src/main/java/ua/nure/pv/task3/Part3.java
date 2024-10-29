@@ -2,17 +2,17 @@ package ua.nure.pv.task3;
 
 public class Part3 {
 
-	private final int threads_num;
+	private final int threadsNum;
 	private final int iters;
-	private final int sleep_ms;
+	private final int sleepMs;
 
 	private int c1;
 	private int c2;
 	
 	public Part3(int n, int k, int t) {
-		threads_num = n;
+		threadsNum = n;
 		iters = k;
-		sleep_ms = t;
+		sleepMs = t;
 	}
 	
 	public void reset() {
@@ -20,15 +20,15 @@ public class Part3 {
 	}	
 
 	public void test() {
-		Thread[] threads = new Thread[threads_num];
+		Thread[] threads = new Thread[threadsNum];
 
-		for(int i = 0; i < threads_num; i++) {
+		for(int i = 0; i < threadsNum; i++) {
 			threads[i] = new Thread(() -> {
 				for(int j = 0; j < iters; j++) {
 					System.out.printf("%d %d%n", c1, c2);
 					c1++;
                     try {
-                        Thread.sleep(sleep_ms);
+                        Thread.sleep(sleepMs);
                     } catch (InterruptedException e) {
                         return;
                     }
@@ -50,16 +50,16 @@ public class Part3 {
 	}
 
 	public void testSync() {
-		Thread[] threads = new Thread[threads_num];
+		Thread[] threads = new Thread[threadsNum];
 
-		for(int i = 0; i < threads_num; i++) {
+		for(int i = 0; i < threadsNum; i++) {
 			threads[i] = new Thread(() -> {
 				for(int j = 0; j < iters; j++) {
 					synchronized (Part3.this) {
 						System.out.printf("%d %d%n", c1, c2);
 						c1++;
 						try {
-							Thread.sleep(sleep_ms);
+							Thread.sleep(sleepMs);
 						} catch (InterruptedException e) {
 							return;
 						}
